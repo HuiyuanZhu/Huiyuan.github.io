@@ -14,7 +14,7 @@
   
 
 
-<html class="theme-next muse use-motion" lang="zh-CN">
+<html class="theme-next pisces use-motion" lang="zh-CN">
 <head><meta name="generator" content="Hexo 3.8.0">
   <meta charset="UTF-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -61,16 +61,16 @@
 <link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
 
 
-  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=6.5.0">
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/LogoZHY.png?v=6.5.0">
 
 
-  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=6.5.0">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LogoZHY.png?v=6.5.0">
 
 
-  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=6.5.0">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LogoZHY.png?v=6.5.0">
 
 
-  <link rel="mask-icon" href="/images/logo.svg?v=6.5.0" color="#222">
+  <link rel="mask-icon" href="/images/zhylogo.svg?v=6.5.0" color="#222">
 
 
 
@@ -84,7 +84,7 @@
   var NexT = window.NexT || {};
   var CONFIG = {
     root: '/',
-    scheme: 'Muse',
+    scheme: 'Pisces',
     version: '6.5.0',
     sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
     fancybox: false,
@@ -262,9 +262,6 @@
   
 
   
-    
-
-  
 
   
 </nav>
@@ -285,9 +282,346 @@
       <div class="main-inner">
         <div class="content-wrap">
           
+            
+
+          
           <div id="content" class="content">
             
   <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://huiyuanzhu.github.io/blog/2018/11/30/Github-pages-和-Hexo快速搭建博客/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huiyuan Zhu">
+      <meta itemprop="description" content="Front-end interview and development">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZHY Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/30/Github-pages-和-Hexo快速搭建博客/" class="post-title-link" itemprop="http://huiyuanzhu.github.io/blog/index.html">Github pages 和 Hexo快速搭建博客以及相关命令</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-30 10:34:26 / 修改时间：12:13:44" itemprop="dateCreated datePublished" datetime="2018-11-30T10:34:26+11:00">2018-11-30</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Blog-Establishment/" itemprop="url" rel="index"><span itemprop="name">Blog Establishment</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="搭建教程以及踩过的坑："><a href="#搭建教程以及踩过的坑：" class="headerlink" title="搭建教程以及踩过的坑："></a>搭建教程以及踩过的坑：</h2><p><a href="https://zhuanlan.zhihu.com/p/32957389" target="_blank" rel="noopener">搭建详细教程</a></p>
+<ol>
+<li>搭建Github pages 之后不要往里面上传自己的index.html，会导致输入网页地址打开的是你上传的Initial commit 版本的index.html。</li>
+<li>用Hexo d 部署过之后，不需要再将项目commit 到Github 上，Hexo 已经部署完成了，直接输入网址打开博客就可以。</li>
+</ol>
+<h2 id="常用命令："><a href="#常用命令：" class="headerlink" title="常用命令："></a>常用命令：</h2><p><code>hexo init [folder]</code> 新建网站<br><code>hexo g/generate</code> 生成静态文件，部署网站并监视文件变动<br><code>hexo s/server</code> 启动（本地）服务器，网址：<a href="http://localhost:4000/" target="_blank" rel="noopener">http://localhost:4000/</a><br><code>hexo new [layout: post/draft] &quot;新博文标题&quot;</code> 新建文章或者草稿<br><code>hexo d/deploy</code> 部署网站到_config.yml 中Deployment 部分的Github repo 上。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://huiyuanzhu.github.io/blog/2018/11/29/lang-属性/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huiyuan Zhu">
+      <meta itemprop="description" content="Front-end interview and development">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZHY Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2018/11/29/lang-属性/" class="post-title-link" itemprop="http://huiyuanzhu.github.io/blog/index.html">lang 属性</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-11-29 20:31:12 / 修改时间：22:19:50" itemprop="dateCreated datePublished" datetime="2018-11-29T20:31:12+11:00">2018-11-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/HTML5/" itemprop="url" rel="index"><span itemprop="name">HTML5</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="网页头部语言声明"><a href="#网页头部语言声明" class="headerlink" title="网页头部语言声明"></a>网页头部语言声明</h2><h3 id="推荐格式"><a href="#推荐格式" class="headerlink" title="推荐格式"></a>推荐格式</h3><ol>
+<li>zh-CN和 zh已经废弃，不推荐使用。 </li>
+<li>正确的语言声明可以参照 <a href="https://tools.ietf.org/html/bcp47" target="_blank" rel="noopener">BCP 47 - Tags for Identifying Languages</a>。<br> 其遵照的格式为：<blockquote>
+<p>language-extlang-script-region-variant-extension-privateuse<br>语言文字种类-扩展语言文字种类-书写格式-国家和地区-变体-扩展-私有 </p>
+</blockquote>
+</li>
+</ol>
+<h3 id="兼容性高的格式"><a href="#兼容性高的格式" class="headerlink" title="兼容性高的格式"></a>兼容性高的格式</h3><p>由于有些框架和软件并没有更新语言声明格式，最好使用zh-[语言code]以兼容。<br>比较容易兼容的写法有： <code>zh, zh-CN, zh-Hans, zh-Hans-CN</code>。</p>
+<h4 id="语言code"><a href="#语言code" class="headerlink" title="语言code:"></a>语言code:</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">简体中文：&lt;html lang=&quot;zh-cmn-Hans/cmn-Hans-CN/cmn-Hans&quot;&gt;</span><br><span class="line">繁体中文: &lt;html lang=&quot;zh-cmn-Hant/cmn-Hant-TW&quot;&gt;</span><br><span class="line">英文/美式英语：&lt;html lang=&quot;en/en-US&quot;&gt;</span><br><span class="line">粤语：&lt;html lang=&quot;yue-Hant&quot;&gt;</span><br><span class="line">湘语（湖南话）：&lt;html lang=&quot;hsn&quot;&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="更多细节可参考"><a href="#更多细节可参考" class="headerlink" title="更多细节可参考:"></a>更多细节可参考:</h4><p><em><a href="https://www.w3.org/International/articles/language-tags/" target="_blank" rel="noopener">W3C</a></em><br><em><a href="https://www.zhihu.com/question/20797118" target="_blank" rel="noopener">知乎讨论</a></em></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
     
       
 
@@ -478,14 +812,44 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">1</span>
+                    <span class="site-state-item-count">3</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
               
 
               
+                
+                
+                <div class="site-state-item site-state-categories">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">分类</span>
+                  
+                </div>
+              
 
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  
+                    
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">2</span>
+                    <span class="site-state-item-name">标签</span>
+                  
+                </div>
               
             </nav>
           
@@ -541,7 +905,7 @@
 
 
 
-  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a> v6.5.0</div>
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.5.0</div>
 
 
 
@@ -633,6 +997,13 @@
 
   
   
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.5.0"></script>
+
+
 
   
 
