@@ -124,7 +124,7 @@
 <meta property="og:description" content="OSI 网络七层模型开放式系统互联模型（Open Systems Interconnection model，简称OSI model）是由国际标准化组织（International Organization for Standardization，简称ISO）完成和维护的。该模型共有七层，目的是提高不同通信系统之间的可操作性，使得其可以互相通信。图1展示了最开始的OSI模型的构成：  物理层（Py">
 <meta property="og:locale" content="zh-CN">
 <meta property="og:image" content="https://upload-images.jianshu.io/upload_images/15035151-83cf74b1a4bfca5c.PNG?imageMogr2/auto-orient/strip%7CimageView2/2/w/600">
-<meta property="og:updated_time" content="2018-11-30T04:40:12.608Z">
+<meta property="og:updated_time" content="2018-12-04T10:25:03.074Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="OSI 网络七层模型和TCP&#x2F;IP四层模型">
 <meta name="twitter:description" content="OSI 网络七层模型开放式系统互联模型（Open Systems Interconnection model，简称OSI model）是由国际标准化组织（International Organization for Standardization，简称ISO）完成和维护的。该模型共有七层，目的是提高不同通信系统之间的可操作性，使得其可以互相通信。图1展示了最开始的OSI模型的构成：  物理层（Py">
@@ -150,6 +150,15 @@
 
 
 
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130189155-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-130189155-1');
+</script>
 
 
 
@@ -407,12 +416,24 @@
                 
               
 
-              <time title="创建时间：2018-11-30 15:12:22 / 修改时间：15:40:12" itemprop="dateCreated datePublished" datetime="2018-11-30T15:12:22+11:00">2018-11-30</time>
+              <time title="创建时间：2018-11-30 15:12:22" itemprop="dateCreated datePublished" datetime="2018-11-30T15:12:22+11:00">2018-11-30</time>
             
 
             
               
 
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2018-12-04 21:25:03" itemprop="dateModified" datetime="2018-12-04T21:25:03+11:00">2018-12-04</time>
               
             
           </span>
@@ -429,7 +450,7 @@
                 <span class="post-meta-item-text">分类于</span>
               
               
-                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/Computer-Network/" itemprop="url" rel="index"><span itemprop="name">Computer Network</span></a></span>
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/网络原理/" itemprop="url" rel="index"><span itemprop="name">网络原理</span></a></span>
 
                 
                 
@@ -468,7 +489,7 @@
 <li>物理层（Pysical Layer）：负责设备和物理传输媒介（例如光纤，网线）之间原始数据（raw data）或者说是比特流（bit stream，单位：比特/bit）的传输和接收。将原始数据（1，0）通过数模转换成电流强弱传输到目的地再进行模数转换为1/0。</li>
 <li>数据链路层（Data Link Layer）：对直接相连的结点提供点对点数据传输（node-to-node data transfer）。这一层可以检测甚至更正在物理层中出现的错误。定义了不同的协议来建立和终止两台物理相连的设备之间的联系以及流量控制（flow control），例如PPP（Point-to-Point Protocol）。也可以理解为规定了0和1的分包形式，确定了网络数据包的形式。</li>
 <li>网络层（Network Layer）：在不同网络(Network)的结点之间传输包（packets）。每一个网络中有很多可以相互连接的结点，只要提供目标节点的地址（address：IPv4/IPv6）和要发送的信息给网络，它就能找到相应的接收结点。如果数据太大可以分割成小块再在目标结点集合。这一层相对应的物理设备有路由器。相对应的协议有IP，ICMP，ARP，RARP。</li>
-<li>传输层（Transport Layer）：为每个应用程序定义一个端口号以便提高数据传输的稳定性。如果发生错误，可以追踪并重新发送（re-transmit）。传输协议有五个等级： TP0-TP4，TP0表示没有错误矫正（error recovery），适用于无错连接（error-free connections）；TP4和TCP相近，为不可靠的网络设计（Internet）。 <a href="">TCP 和 UDP具体比较和区别</a></li>
+<li>传输层（Transport Layer）：为每个应用程序定义一个端口号以便提高数据传输的稳定性。如果发生错误，可以追踪并重新发送（re-transmit）。传输协议有五个等级： TP0-TP4，TP0表示没有错误矫正（error recovery），适用于无错连接（error-free connections）；TP4和TCP相近，为不可靠的网络设计（Internet）。<a href="#UDPvsTCP">UDP vs TCP</a></li>
 <li>会话层（Session Layer）：控制(建立，管理以及终止)电脑间（本地和远端的应用之间）的对话/连接（diaogues/ connections）。</li>
 <li>表示层（Presentation Layer）：建立应用级别实体之间的通信环境（数据编码和转化），使得拥有不同语法和语义的应用之间能够通信和识别。ex: Linux app vs Windows app</li>
 <li>应用层（Application Layer）：和用户最近的一层，和软件应用沟通（application-specific），为其提供应用服务，包括文件传输，e-mail。 Ex: Telnet, DNS, SMTP, FTP(File Transfer Protocol), HTTP, NFS(Network File System), WWW browsers。</li>
@@ -479,6 +500,9 @@
 <li>传输层（Transport Layer）：TCP-三次握手，四次挥手, UDP-不管</li>
 <li>应用层（Application Layer）：OSI 应用层&amp;表示层，HTTP, FTP, POP, IMAP </li>
 </ol>
+<h2 id="UDPvsTCP"> UDP VS TCP</h2>
+
+<p>传输控制协议（Transmission Control Protocol，简称TCP）: 流模式，长消息，面向连接，传输效率低，可靠性强（不会丢包，保证数据正确性），保证数据顺序。<br>用户数据报协议（User Datagram Protocol，简称UDP）：数据报模式，短消息，大量client（网络负担重，响应速度要求高）,可靠性低（可能丢包），不保证数据顺序。</p>
 <p>Reference:<br><a href="https://www.jianshu.com/p/4b9d43c0571a" target="_blank" rel="noopener">https://www.jianshu.com/p/4b9d43c0571a</a></p>
 
       
@@ -600,7 +624,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">4</span>
+                    <span class="site-state-item-count">16</span>
                     <span class="site-state-item-name">日志</span>
                   </a>
                 </div>
@@ -610,7 +634,7 @@
                 
                 
                 <div class="site-state-item site-state-categories">
-                  
+                  <a href="/categories/index.html">
                     
                     
                       
@@ -619,9 +643,17 @@
                     
                       
                     
-                    <span class="site-state-item-count">3</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">7</span>
                     <span class="site-state-item-name">分类</span>
-                  
+                  </a>
                 </div>
               
 
@@ -629,7 +661,7 @@
                 
                 
                 <div class="site-state-item site-state-tags">
-                  
+                  <a href="/tags/index.html">
                     
                     
                       
@@ -640,9 +672,29 @@
                     
                       
                     
-                    <span class="site-state-item-count">4</span>
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">14</span>
                     <span class="site-state-item-name">标签</span>
-                  
+                  </a>
                 </div>
               
             </nav>
@@ -715,7 +767,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OSI-网络七层模型"><span class="nav-number">1.</span> <span class="nav-text">OSI 网络七层模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-IP四层模型"><span class="nav-number">2.</span> <span class="nav-text">TCP/IP四层模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础介绍"><span class="nav-number">2.1.</span> <span class="nav-text">基础介绍</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#OSI-网络七层模型"><span class="nav-number">1.</span> <span class="nav-text">OSI 网络七层模型</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#TCP-IP四层模型"><span class="nav-number">2.</span> <span class="nav-text">TCP/IP四层模型</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#基础介绍"><span class="nav-number">2.1.</span> <span class="nav-text">基础介绍</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#UDPvsTCP"><span class="nav-number">3.</span> <span class="nav-text"> UDP VS TCP</span></a></li></ol></div>
             
 
           </div>
